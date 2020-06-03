@@ -6,8 +6,8 @@ TODO:
 
 - [x] Model the basic shape of the enclosure
 - [x] Model the buttons and switch
-- [ ] Model the underside of the switch to make sure it doesn't collide with the back
-- [ ] Model the perfboard
+- [x] Model the underside of the switch to make sure it doesn't collide with the back
+- [x] Model the perfboard
 - [ ] Subtract the components from the enclosure shape
 
 */
