@@ -106,80 +106,86 @@ module perfboard() {
 
 module button() {
   color("blue") {
-    // Shaft
-    translate([0.0, 0.0, -BUTTON_SHAFT_LENGTH]) {
-      cylinder(h=BUTTON_SHAFT_LENGTH, r=(BUTTON_SHAFT_DIAMETER / 2), $fn=100);
-    }
+    union() {
+      // Shaft
+      translate([0.0, 0.0, -BUTTON_SHAFT_LENGTH]) {
+        cylinder(h=BUTTON_SHAFT_LENGTH, r=(BUTTON_SHAFT_DIAMETER / 2), $fn=100);
+      }
 
-    // Top
-    cylinder(h=BUTTON_FACE_THICKNESS, r=(BUTTON_OUTER_DIAMETER / 2), $fn=100);
+      // Top
+      cylinder(h=BUTTON_FACE_THICKNESS, r=(BUTTON_OUTER_DIAMETER / 2), $fn=100);
+    }
   }
 }
 
 module switch() {
   color("green") {
-    // Top
-    cylinder(h=SWITCH_WASHER_THICKNESS, r=(SWITCH_WASHER_DIAMETER / 2), $fn=100);
+    union() {
+      // Top
+      cylinder(h=SWITCH_WASHER_THICKNESS, r=(SWITCH_WASHER_DIAMETER / 2), $fn=100);
 
-    // Shaft
-    translate([0.0, 0.0, -FRAME_THICKNESS]) {
-      cylinder(h=SWITCH_SHAFT_LENGTH, r=(SWITCH_SHAFT_DIAMETER / 2), $fn=100);
-    }
+      // Shaft
+      translate([0.0, 0.0, -FRAME_THICKNESS]) {
+        cylinder(h=SWITCH_SHAFT_LENGTH, r=(SWITCH_SHAFT_DIAMETER / 2), $fn=100);
+      }
 
-    // Box
-    translate([0.0, 0.0, SWITCH_BOX_OFFSET_Z]) {
-      cube([SWITCH_BOX_WIDTH, SWITCH_BOX_LENGTH, SWITCH_BOX_DEPTH], center=true);
+      // Box
+      translate([0.0, 0.0, SWITCH_BOX_OFFSET_Z]) {
+        cube([SWITCH_BOX_WIDTH, SWITCH_BOX_LENGTH, SWITCH_BOX_DEPTH], center=true);
+      }
     }
   }
 }
 
 module enclosure() {
-  // Enclosure itself
-  rotate([90.0, 0.0, 90.0]) {
-    linear_extrude(PANEL_LENGTH, convexity=10) {
-      side_sketch();
-    }
-  }
-
-  // Button A
-  translate([BUTTON_A_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
-    rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
-      button();
-    }
-  }
-
-  // Button B
-  translate([BUTTON_B_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
-    rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
-      button();
-    }
-  }
-
-  //Switch
-  translate([SWITCH_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
-    rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
-      switch();
-    }
-  }
-
-  // Perfboard
-  translate([0.0, PERFBOARD_POSITION_Y, FRAME_THICKNESS + PERFBOARD_MARGIN_Z]) {
-    rotate([90.0, 0.0, 0.0]) {
-      perfboard();
-    }
-  }
-
-  // Screw holes
-  color("black") {
-    translate([SCREW_HOLE_A_OFFSET_X, PANEL_DISTANCE_HORIZONTAL + (FRAME_THICKNESS * 2), SCREW_HOLE_OFFSET_Z]) {
-      rotate([90.0, 0.0, 0.0]) {
-        cylinder(h=(FRAME_THICKNESS * 4), r=(PERFBOARD_HOLE_DIAMETER / 2), $fn=100);
+  difference() {
+    // Enclosure itself
+    rotate([90.0, 0.0, 90.0]) {
+      linear_extrude(PANEL_LENGTH, convexity=10) {
+        side_sketch();
       }
     }
 
-    translate([SCREW_HOLE_B_OFFSET_X, PANEL_DISTANCE_HORIZONTAL + (FRAME_THICKNESS * 2), SCREW_HOLE_OFFSET_Z]) {
+    // Button A
+    translate([BUTTON_A_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
+      rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
+        button();
+      }
+    }
+
+    // Button B
+    translate([BUTTON_B_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
+      rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
+        button();
+      }
+    }
+
+    //Switch
+    translate([SWITCH_CENTER_X, COMPONENT_CENTER_HORIZONTAL, COMPONENT_CENTER_VERTICAL]) {
+      rotate([PANEL_SLOPE_DEGREES, 0.0, 0.0]) {
+        switch();
+      }
+    }
+
+    // Perfboard
+    translate([0.0, PERFBOARD_POSITION_Y, FRAME_THICKNESS + PERFBOARD_MARGIN_Z]) {
       rotate([90.0, 0.0, 0.0]) {
-        cylinder(h=(FRAME_THICKNESS * 4), r=(PERFBOARD_HOLE_DIAMETER / 2), $fn=100);
+        perfboard();
+      }
+    }
+
+    // Screw holes
+    color("black") {
+      translate([SCREW_HOLE_A_OFFSET_X, PANEL_DISTANCE_HORIZONTAL + (FRAME_THICKNESS * 2), SCREW_HOLE_OFFSET_Z]) {
+        rotate([90.0, 0.0, 0.0]) {
+          cylinder(h=(FRAME_THICKNESS * 4), r=(PERFBOARD_HOLE_DIAMETER / 2), $fn=100);
+        }
+      }
+
+      translate([SCREW_HOLE_B_OFFSET_X, PANEL_DISTANCE_HORIZONTAL + (FRAME_THICKNESS * 2), SCREW_HOLE_OFFSET_Z]) {
+        rotate([90.0, 0.0, 0.0]) {
+          cylinder(h=(FRAME_THICKNESS * 4), r=(PERFBOARD_HOLE_DIAMETER / 2), $fn=100);
+        }
       }
     }
   }
